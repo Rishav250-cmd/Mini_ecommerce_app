@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const dbgr = require("debug")("mongoose-connect");
 
 mongoose.connect('mongodb://127.0.0.1:27017/ecommerce')
 .then(function(){
