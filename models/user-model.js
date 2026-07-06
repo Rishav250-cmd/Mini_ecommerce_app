@@ -20,10 +20,6 @@ const userSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
-    isadmin:{
-        type: Boolean,
-        default: false
-    },
     Orders:{
         type: Array,
         default: []
@@ -34,5 +30,5 @@ const userSchema = new mongoose.Schema({
     picture: String 
 });
 
-mongoose.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model('user', userSchema);
 

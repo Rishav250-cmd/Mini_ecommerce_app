@@ -7,8 +7,17 @@ const db = require('./config/mongoose-connect');
 const ownersRouter = require('./routes/ownersRouter');
 const usersRouter = require('./routes/usersRouter');
 const productsRouter = require('./routes/productsRouter');
+const flash = require('connect-flash');
+const session = require('express-session');
 
+require('dotenv').config({ quiet: true });
 
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+}));
+app.use(flash());
 
 app.use(cookieParser());
 app.use(express.json());
@@ -21,7 +30,7 @@ app.use('/products', productsRouter);
  
 
 app.get('/', (req, res) => {
-    res.send('Hello, World!');
+    res.render("index");
 });
 
 
