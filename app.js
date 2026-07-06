@@ -9,6 +9,8 @@ const usersRouter = require('./routes/usersRouter');
 const productsRouter = require('./routes/productsRouter');
 const flash = require('connect-flash');
 const session = require('express-session');
+const indexRouter = require('./routes/indexRouter');
+
 
 require('dotenv').config({ quiet: true });
 
@@ -25,16 +27,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.use('/owners', ownersRouter);
+app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
  
-
-app.get('/', (req, res) => {
-    res.render("index");
-});
-
-
-
-
 
 app.listen(3000);

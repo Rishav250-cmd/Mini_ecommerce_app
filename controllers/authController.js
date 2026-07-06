@@ -10,12 +10,14 @@ try{
     let {name , email, password} = req.body;
     let newuser = await usermodel.findOne({email: email});
     if(newuser){
-        return res.status(400).send('User already exists , Please Login ');
+    req.flash('error', 'User already exists, Please Login');
+    return res.redirect('/');
     }
 
     const { error } = registerSchema.validate(req.body);
     if (error) {
-        return res.status(400).send(error.message);
+    req.flash('error', error.message);
+    return res.redirect('/');
     }
     bcrypt.genSalt(10, async function(err,salt){
         bcrypt.hash(password, salt, async function(err, hash){
@@ -27,7 +29,8 @@ try{
                
                 const token = generatetoken(createduser);
                 res.cookie('token', token, { httpOnly: true });
-                res.send('User registered successfully');
+                req.flash('success', 'User registered successfully, please login');
+                return res.redirect('/');
 
             }
         })
@@ -41,17 +44,19 @@ try{
 module.exports.loginUser = async function(req, res){
     let {email, password} = req.body;
     let user = await usermodel.findOne({email:email});
-    if(!user){
-        return res.status(400).send('Email or Password is incorrect');
+    if (!user) {
+    req.flash('error', 'Invalid email or password');
+    return res.redirect('/');
     }
     bcrypt.compare(password, user.password , function(err , result){
         if(result){
             let token = generatetoken(user);
             res.cookie('token', token, { httpOnly: true });
-            res.send('Login Successful');
+            res.redirect('/shop');
         }
         else{
-            res.status(400).send('Email or Password is incorrect');
+            req.flash('error', 'Invalid email or password');
+            return res.redirect('/');
         }
 
     })
