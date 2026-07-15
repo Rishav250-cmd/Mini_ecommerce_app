@@ -21,8 +21,9 @@ if(process.env.NODE_ENV === 'development'){
   });
 }
 
-router.get('/',(req, res) => {
-    res.status(203).send(createdowner);
+router.get('/create-product',(req, res) => {
+    let success =req.flash('success');
+    res.render('createproduct',{success});
 });
 
 module.exports = router;
