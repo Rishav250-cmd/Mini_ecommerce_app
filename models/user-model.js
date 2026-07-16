@@ -1,3 +1,4 @@
+const { required } = require('joi');
 const mongoose = require('mongoose');
 
 
@@ -16,10 +17,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    cart:{
-        type: Array,
-        default: []
-    },
+    cart:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref : "products",
+        
+
+    }],
     Orders:{
         type: Array,
         default: []
